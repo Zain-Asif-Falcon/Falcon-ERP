@@ -1,0 +1,52 @@
+﻿@model Domain.ViewModel.Administration.UserViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+<!-- Switch component css -->
+<link rel="stylesheet" type="text/css" href="/files/bower_components/switchery/dist/switchery.min.css"> 
+    <!-- Switch component js -->
+<script type="text/javascript" src="/files/bower_components/switchery/dist/switchery.min.js"></script>
+<div class="card">
+    <div class="card-header">
+        <h5>Update User Information </h5>
+        <div class="btn-group float-right">
+            <a class="btn btn-primary" asp-action="Users">Back to List</a>
+        </div>
+    </div>
+    <div class="card-block">
+        <div class="table-responsive">
+            <form asp-action="EditUser">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" class="form-control" />
+                <div class="form-group">
+                    <label class="control-label">User Name</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Select Role for User</label>
+                    <ul style="list-style-type: none;">
+                        @for (var i = 0; i < Model.Roles.Length; i++)
+                        {
+                            <li style="margin-bottom:10px">
+                                <input type="checkbox" class="js-switch" asp-for="@Model.Roles[i].Selected" />
+                                <label style="margin-left:10px;" asp-for="@Model.Roles[i].Selected">@Model.Roles[i].RoleName</label>
+                                <input type="hidden" asp-for="@Model.Roles[i].Id" />
+                                <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

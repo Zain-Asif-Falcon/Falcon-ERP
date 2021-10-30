@@ -1,0 +1,30 @@
+﻿@model Domain.ViewModel.Administration.RolesViewModel
+@{
+    var title = (Model.Id != "") ? "Update" : "Save";
+    title = title + " Role";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="CreateRole">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <span class="symbol required"></span>&nbsp;
+                <input asp-for="RoleName" class="form-control form-control-sm" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group float-right">
+        <input type="submit" value="@title" class="btn btn-primary" />
+        <input type="reset" value="Clear" class="btn btn-danger" />
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>

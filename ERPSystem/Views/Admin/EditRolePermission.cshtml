@@ -1,0 +1,130 @@
+﻿@model List<Domain.ViewModel.Administration.NavigationMenuViewModel>
+@{
+    ViewData["Title"] = "Edit Role Permission";
+}
+<div class="card">
+    <div class="card-header">
+        <h5>Update Role Permission <small>List</small></h5>
+        <div class="btn-group float-right">
+            <a class="btn btn-primary" asp-action="Roles">Back to List</a>
+        </div>
+    </div>
+    <div class="card-block">
+        <div class="table-responsive">
+            <div id="jstree">
+            </div>
+            <form method="post" asp-controller="Admin" asp-action="SaveTreeItems">
+                <input type="hidden" name="selectedItems" id="selectedItems" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            
+            <div class="x_content">
+                <!--<form asp-action="EditRolePermission">
+                    <div class="form-group">
+                        <ul style="list-style-type: none; display: grid; grid-template-columns: 2fr 2fr 2fr;">
+                            @for (var i = 0; i < Model.Count; i++)
+                            {
+                                <li>
+                                    <input type="checkbox" asp-for="@Model[i].Permitted" />
+                                    <label style="margin-left:10px;" asp-for="@Model[i].Permitted">@Model[i].Name</label>
+                                    <input type="hidden" asp-for="@Model[i].Id" />
+                                    <input type="hidden" asp-for="@Model[i].Name" />
+                                </li>
+                            }
+
+                        </ul>-->
+                        @*<hr />
+                <ul>
+                    @{
+                        int testi = 0;
+                        int testj = 0;
+                    }
+                    @foreach (var item in Model.Where(a => a.ParentMenuId == null).Select((value, i) => new { i, value }))
+                    {
+                        <li>
+                            <input type="checkbox" asp-for="@Model[item.i].Permitted" />
+                            <label style="margin-left:10px;" asp-for="@Model[item.i].Permitted">@Model[item.i].Name</label>
+                            <input type="hidden" asp-for="@Model[item.i].Id" />
+                            <input type="hidden" asp-for="@Model[item.i].Name" />
+                            <ul>
+                                @foreach (var itm in Model.Where(a => a.ParentMenuId == item.value.Id).Select((value, j) => new { j, value }))
+                                {
+                                    <li>
+                                        <input type="checkbox" asp-for="@Model[itm.j].Permitted" />
+                                        <label style="margin-left:10px;" asp-for="@itm.value.Permitted">@Model[itm.j].Name</label>
+                                        <input type="hidden" asp-for="@Model[itm.j].Id" />
+                                        <input type="hidden" asp-for="@Model[itm.j].Name" />
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        testi = testi + 1;
+                    }
+                </ul>*@
+                    <!--</div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>-->
+
+                <div id="jstree">
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var test = @Html.Raw(ViewBag.Json);
+
+          $('#jstree').on('changed.jstree', function (e, data) {
+                var i, j;
+                var selectedItems = [];
+                for(i = 0, j = data.selected.length; i < j; i++) {
+
+                    //Fetch the Id.
+                    var id = data.selected[i];
+
+                    //Remove the ParentId.
+                    if(id.indexOf('-') != -1){
+                        id = id.split("-")[1];
+                    }
+
+                    //Add the Node to the JSON Array.
+                    selectedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: id,
+                        parent : data.instance.get_node(data.selected[i]).parent
+                       // parent: data.node.parents[0]
+                    });
+                }
+
+                //Serialize the JSON Array and save in HiddenField.
+                $('#selectedItems').val(JSON.stringify(selectedItems));
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large"
+                    },
+                    "data": test 
+                    },
+                "checkbox": {
+                    "keep_selected_style": false
+                },
+                "plugins": ["wholerow", "checkbox"],
+            });
+    });
+
+</script>
