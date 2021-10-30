@@ -1,0 +1,59 @@
+﻿@model List<Domain.ViewModel.Administration.NavigationMenuViewModel>
+@{
+    ViewData["Title"] = "NavigationMenu";
+    //bool firstTime = false;
+    List<string> MenuList = new List<string>();
+}
+<nav class="pcoded-navbar">
+    <div class="pcoded-inner-navbar main-menu">
+        <div class="pcoded-navigatio-lavel">Navigation</div>
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="">
+                <a href="~/Home/Index/">
+                    <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                    <span class="pcoded-mtext">Dashboard</span>
+                </a>
+            </li>
+        </ul>
+        @{
+            var DirectLink = Model.Where(x => x.IsButton == true).OrderBy(x => x.ParentDisplayOrder).ToList();
+
+            var parentList = Model.Where(x => x.IsButton == false).OrderBy(x => x.ParentDisplayOrder).Select(x => x.ParentName).Distinct();
+            @foreach (var pitm in parentList)
+            {
+                if (pitm != null)
+                {
+                    var children = Model.Where(x => x.ParentName == pitm && x.Visible).OrderBy(x => x.DisplayOrder).ToList();
+                    if (children != null && children.Count > 0)
+                    {
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li class="pcoded-hasmenu">
+                                <a href="javascript:void(0)">
+                                    <span class="pcoded-micon"><i class="feather @children[0].ParentIcon"></i></span>
+                                    <span class="pcoded-mtext"> @children[0].ParentName </span>
+                                </a>
+                                @{
+                                    <ul class="pcoded-submenu">
+                                        @foreach (var itm in children)
+                                        {
+                                            <li class="">
+                                                <a asp-area="@itm.Area" asp-controller="@itm.ControllerName" asp-action="@itm.ActionName">
+                                                    <span class="pcoded-mtext">@itm.Name</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+
+                                }
+                            </li>
+                        </ul>
+                    }
+
+                }
+
+            }
+        }
+    </div>
+</nav>
+
+
