@@ -1,0 +1,57 @@
+﻿@model Domain.ViewModel.AccountHeadsViewModel
+@{
+    var title = (Model.AccHead.AccountHeadId > 0) ? "Update" : "Save";
+    title = title + "";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-area="Master" asp-controller="AccountHead" asp-action="Upsert">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group" hidden>
+            <input asp-for="AccHead.AccountHeadId" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            @if (Model.AccHead.AccountHeadId == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="AccHead.Code" class="control-label"></label>
+                    <input asp-for="AccHead.Code" class="form-control form-control-sm" id="accountHeadCodeTxt" />
+                    <span asp-validation-for="AccHead.Code" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="AccHead.Code" class="control-label"></label>
+                    <input asp-for="AccHead.Code" class="form-control form-control-sm" readonly id="accountHeadCodeTxt" />
+                    <span asp-validation-for="AccHead.Code" class="text-danger"></span>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="AccHead.Description" class="control-label"></label>
+                <textarea asp-for="AccHead.Description" class="form-control form-control-sm" rows="3"></textarea>
+                <span asp-validation-for="AccHead.Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group float-right">
+        <input type="submit" value="@title" class="btn btn-primary" />
+        <input type="reset" value="Clear" class="btn btn-danger" />
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
