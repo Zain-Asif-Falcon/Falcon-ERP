@@ -1,0 +1,156 @@
+﻿@model Domain.ViewModel.PartyCodeViewModel
+@{
+    var title = (Model.partCode.PartyCodeId > 0) ? "Update" : "Save";
+    title = title + "";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        width: 100% !important;
+        vertical-align: middle;
+    }
+</style>
+<form asp-area="Master" asp-controller="PartyCode" asp-action="Upsert" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group" hidden>
+        <input asp-for="partCode.PartyCodeId" class="form-control" />
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Party Code</label><sup style="color:red;font-size:13px;top:-3px">*</sup>
+                <select id="AccountCode" required class="form-control form-control-sm accountcodedropdown1" asp-for="partCode.AccountCodeId" asp-items="@ViewBag.AccountCodes">
+                    <option> Select Party Code</option>
+                </select>
+                <span asp-validation-for="partCode.AccountCodeId" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <input asp-for="partCode.Name" class="form-control form-control-sm" id="partyNameTxt" />
+                <span asp-validation-for="partCode.Name" class="text-danger"></span>
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Phone</label>
+                <input asp-for="partCode.phone" class="form-control form-control-sm" autocomplete="off" placeholder="0423-xxxxxxx"/>
+                <span asp-validation-for="partCode.phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Mobile<sup style="color:red;font-size:13px;top:-3px">*</sup> #  (WhatsApp)</label> 
+                <input asp-for="partCode.MobileOne" class="form-control form-control-sm" autocomplete="off" placeholder="03xx-xxxxxxx"/>
+                <span asp-validation-for="partCode.MobileOne" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Mobile # (Secondary)</label>
+                <input asp-for="partCode.MobileTwo" class="form-control form-control-sm" autocomplete="off" placeholder="03xx-xxxxxxx"/>
+                <span asp-validation-for="partCode.MobileTwo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">City</label>
+                <input asp-for="partCode.city" class="form-control form-control-sm" autocomplete="off" placeholder="Lahore etc."/>
+                <span asp-validation-for="partCode.city" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Fax</label>
+                <input asp-for="partCode.fax" class="form-control form-control-sm" autocomplete="off" placeholder="0423-xxxxxxx"/>
+                <span asp-validation-for="partCode.fax" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> NTN #</label>
+                <input asp-for="partCode.NTN" class="form-control form-control-sm" autocomplete="off" placeholder="123456789"/>
+                <span asp-validation-for="partCode.NTN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">STRN #</label>
+                <input asp-for="partCode.STRN" class="form-control form-control-sm form-control-sm" autocomplete="off" placeholder="123456789"/>
+                <span asp-validation-for="partCode.STRN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Contact Person</label>
+                <input asp-for="partCode.contactPerson" class="form-control form-control-sm"  autocomplete="off" placeholder="Nawaz Sb."/>
+                <span asp-validation-for="partCode.contactPerson" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+           
+            <div class="form-group">
+                <label class="control-label">Account Date</label>
+                <div class="input-group date">
+                    @*<span class="input-group-addon"><i class="fa fa-calendar"></i></span>*@
+                    <input asp-for="partCode.AccountDate" class="form-control text-box single-line dropperDate" id="" placeholder=" Account Date" type="date" autocomplete="off">
+                    <span asp-validation-for="partCode.AccountDate" class="text-danger"></span>
+                </div>
+
+                @*<label class="control-label">Account Date</label>
+                <input asp-for="partCode.AccountDate" class="form-control form-control-sm dateSelection" type="" />
+                <span asp-validation-for="partCode.AccountDate" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Credit Days</label>
+                <input asp-for="partCode.creditDays" class="form-control form-control-sm"  autocomplete="off"/>
+                <span asp-validation-for="partCode.creditDays" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Remarks</label>
+                <textarea asp-for="partCode.remarks" class="form-control form-control-sm" rows="3" autocomplete="off"></textarea>
+                <span asp-validation-for="partCode.remarks" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Address</label>
+                <textarea asp-for="partCode.Address" class="form-control form-control-sm" rows="3" autocomplete="off"></textarea>
+                <span asp-validation-for="partCode.Address" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group float-right">
+        <input type="submit" value="@title" class="btn btn-primary" />
+        <input type="reset" value="Clear" class="btn btn-danger" />
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
+
+<script>
+    $(".accountcodedropdown1").select2();
+
+    $('.dateSelection').datetimepicker({
+        format: 'DD-MM-YYYY'
+    });
+</script>
