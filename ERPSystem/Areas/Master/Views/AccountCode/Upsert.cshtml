@@ -1,0 +1,109 @@
+﻿@model Domain.ViewModel.AccountCodeViewModel
+@{
+    var title = (Model.AccCode.AccountCodeId > 0) ? "Update" : "Save";
+    title = title + "";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+    decimal? opnBal = 0;
+}
+<style>
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        width: 100% !important;
+        vertical-align: middle;
+    }
+</style>
+<form asp-area="Master" asp-controller="AccountCode" asp-action="Upsert">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group" hidden>
+            <input asp-for="AccCode.AccountCodeId" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Account Head</label>
+                @if (Model.AccCode.AccountCodeId > 0)
+                {
+                    <select id="AccountHead" disabled class="form-control form-control-sm accountcodedropdown" asp-for="AccCode.AccountHeadId" asp-items="@ViewBag.AccountHeads">
+                        <option disabled selected> Select Account Head</option>
+                    </select>
+                }
+                else
+                {
+                    <select id="AccountHead" class="form-control form-control-sm accountcodedropdown" asp-for="AccCode.AccountHeadId" asp-items="@ViewBag.AccountHeads">
+                        <option disabled selected> Select Account Head</option>
+                    </select>
+                }
+                <span asp-validation-for="AccCode.AccountHeadId" class="text-danger"></span>
+            </div>
+        </div>
+        @if (Model.AccCode.AccountCodeId > 0)
+        {
+            <div class="col-md-4" style="padding:0">
+                <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <input readonly id="accountHeadCodeTxt" asp-for="AccCode.Code" class="form-control form-control-sm" style="border-radius:0;border-right:0" />
+                    <span asp-validation-for="AccCode.Code" class="text-danger"></span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-1" style="padding:0">
+                <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <input readonly id="accountHeadCodeTxt" class="form-control form-control-sm" style="border-radius:0;border-right:0" />
+                    @*<span asp-validation-for="AccCode.Code" class="text-danger"></span>*@
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding:0">
+                <div class="form-group">
+                    <label asp-for="AccCode.Code" class="control-label"></label>
+                    <input id="accountCode" asp-for="AccCode.Code" class="form-control form-control-sm" style="border-radius:0;border-left:0" />
+                    <span asp-validation-for="AccCode.Code" class="text-danger"></span>
+                </div>
+            </div>
+        }
+
+        @{
+            if (Model.AccCode.OpeningBalance != null)
+            {
+                opnBal = Model.AccCode.OpeningBalance;
+            }
+        }
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Opening Balance</label>
+                <input asp-for="AccCode.OpeningBalance" class="form-control form-control-sm" value="@opnBal" />
+                <span asp-validation-for="AccCode.OpeningBalance" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="AccCode.Description" class="control-label"></label>
+                <textarea asp-for="AccCode.Description" class="form-control form-control-sm" rows="3"></textarea>
+                <span asp-validation-for="AccCode.Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group float-right">
+        <input type="submit" value="@title" class="btn btn-primary" />
+        <input type="reset" value="Clear" class="btn btn-danger" />
+    </div>
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
+<script src="~/js/ERP/AccountCode.js"></script>
+
+<script>
+    $(".accountcodedropdown").select2();
+</script>
