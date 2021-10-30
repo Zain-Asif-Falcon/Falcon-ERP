@@ -1,0 +1,461 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<style>
+    .card .card-header h5 {
+        margin-bottom: 0;
+        color: #000;
+        font-size: 15px;
+        font-weight: 600;
+        /* text-shadow: 0px 0px 1px #000; */
+        display: inline-block;
+        margin-right: 10px;
+        line-height: 1.4;
+    }
+
+    .p-b-30-1 {
+        padding-bottom: 0px !important;
+    }
+
+    .p-t-20-1 {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    .p-b-30 {
+        padding-bottom: 15px !important;
+    }
+
+    .p-t-20 {
+        padding-top: 15px !important;
+    }
+</style>
+
+<div class="row" id="draggablePanelList">
+
+    <!-- statustic-card start -->
+    <div class="col-xl-4 col-md-6 card-sub">
+        <div class="card bg-c-yellow text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">Total Items</p>
+                        <h4 class="m-b-0"><span id="accountItemTile">0</span></h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather icon-user f-50 text-c-yellow"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6 card-sub">
+        <div class="card bg-c-green text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">Total Account Codes</p>
+                        <h4 class="m-b-0"><span id="accountCodeTile">0</span></h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather icon-credit-card f-50 text-c-green"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6 card-sub">
+        <div class="card bg-c-pink text-white">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="m-b-5">Total Account Heads</p>
+                        <h4 class="m-b-0"><span id="accountHeadTile">0</span></h4>
+                    </div>
+                    <div class="col col-auto text-right">
+                        <i class="feather icon-book f-50 text-c-pink"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- income start -->
+    <div class="col-xl-4 col-md-6 card-sub">
+        <div class="card">
+            <div class="card-header">
+                <h5>Total Sales</h5>
+                <div class="card-header-right">
+                    
+                </div>
+            </div>
+            <div class="card-block">
+                <p class="text-c-green f-w-500">
+                    <span id="totalSalesTile"></span> Rs.
+                    This Month
+                </p>
+                <div class="row">
+                    <div class="col-6 b-r-default">
+                        <p class="text-muted m-b-5">Cash Sales</p>
+                        <h5><span id="cashSales"></span> Rs.</h5>
+                    </div>
+                    <div class="col-6 b-r-default">
+                        <p class="text-muted m-b-5">Credit Sales (Recieved)</p>
+                        <h5><span id="creditSales"></span> Rs.</h5>
+                    </div>
+                </div>
+            </div>
+            <canvas id="tot-lead" height="150"></canvas>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6 card-sub">
+        <div class="card">
+            <div class="card-header">
+                <h5>Total Purchases</h5>
+                <div class="card-header-right">
+                    
+                </div>
+            </div>
+            <div class="card-block">
+                <p class="text-c-pink f-w-500">
+                    <span id="totalpurchasestile"></span> Rs.
+                    This Month
+                </p>
+                <div class="row">
+                    <div class="col-6 b-r-default">
+                        <p class="text-muted m-b-5">Cash Purchases</p>
+                        <h5><span id="cashPurchase"></span> Rs.</h5>
+                    </div>
+                    <div class="col-6 b-r-default">
+                        <p class="text-muted m-b-5">Credit Purchases</p>
+                        <h5><span id="creditPurchase"></span> Rs.</h5>
+                    </div>
+                </div>
+            </div>
+            <canvas id="tot-vendor" height="150"></canvas>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-12 card-sub">
+        <div class="card">
+            <div class="card-header">
+                <h5>Payments</h5>
+                <div class="card-header-right">
+                    
+                </div>
+            </div>
+            <div class="card-block">
+                <p class="text-c-green f-w-500">
+                    <i class="feather icon-chevrons-up m-r-15"></i> <span id="totalPaymentsTile"></span>
+                    this month
+                </p>
+                <div class="row">
+                    <div class="col-6 b-r-default">
+                        <p class="text-muted m-b-5">Recieved</p>
+                        <h5><span id="monthlyRecieved"></span> Rs.</h5>
+                    </div>
+                    <div class="col-6 b-r-default">
+                        <p class="text-muted m-b-5">Paid</p>
+                        <h5><span id="monthlyPaid"></span> Rs.</h5>
+                    </div>
+                </div>
+            </div>
+            <canvas id="invoice-gen" height="150"></canvas>
+        </div>
+    </div>
+    <!-- income end -->
+    <!-- visitor start -->
+    <div class="col-xl-12 col-md-12 card-sub">
+        <div class="card">
+            <div class="card-header">
+                <h5>Last Week Transaction Summary</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="feather full-card icon-maximize"></i></li>
+                        <li>
+                            <i class="feather icon-minus minimize-card"></i>
+                        </li>
+                        @*<li><i class="feather icon-trash-2 close-card"></i></li>*@
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="card-block">
+                <div id="visitor" style="height:300px"></div>
+            </div>
+        </div>
+    </div>
+    <!-- visitor end -->
+    @*<div class="col-xl-3 col-md-6 card-sub">
+            <div class="card bg-c-blue text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <p class="m-b-5">Installations</p>
+                            <h4 class="m-b-0">@ViewBag.TodayActivity</h4>
+                        </div>
+                        <div class="col col-auto text-right">
+                            <i class="feather icon-shopping-cart f-50 text-c-blue"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <!-- statustic-card start -->
+    <!-- latest activity end -->
+    <div class="col-xl-6 col-md-12 card-sub">
+        <div class="card latest-activity-card">
+            <div class="card-header">
+                <h5>Latest 5 Sales</h5>
+            </div>
+            <div class="card-block">
+                <div class="latest-update-box" id="salesDashboardList">
+
+                </div>
+                <div class="text-right">
+                    <a href="/Transactions/Sales/Index" class=" b-b-primary text-primary">
+                        View all
+                        Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-12 card-sub">
+        <div class="card latest-activity-card">
+            <div class="card-header">
+                <h5>Latest 5 Purchases</h5>
+            </div>
+            <div class="card-block">
+                <div class="latest-update-box" id="PurchasesDashboardList">
+
+                </div>
+                <div class="text-right">
+                    <a href="/Transactions/Purchases/Index" class=" b-b-primary text-primary">
+                        View all
+                        Purchases
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ticket and update start -->
+    <div class="col-xl-6 col-md-12 card-sub">
+        <div class="card latest-update-card">
+            <div class="card-header">
+                <h5>Latest 5 Reciepts</h5>
+                <div class="card-header-right">
+                    
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="latest-update-box" id="cashRecievedDashboardList">
+
+                </div>
+                <div class="" style="text-align:right">
+                    <a href="/Transactions/CashRecieved/Index" class="b-b-primary text-primary">
+                        View all
+                        Reciepts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-12 card-sub">
+        <div class="card latest-update-card">
+            <div class="card-header">
+                <h5>Latest 5 Payments</h5>
+                <div class="card-header-right">
+                    
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="latest-update-box" id="cashPaymentsDashboardList">
+
+                </div>
+                <div class=""  style="text-align:right">
+                    <a href="/Transactions/CashPayment/Index" class="b-b-primary text-primary">
+                        View all
+                        Payments
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ticket and update end -->
+    <!-- social start -->
+    <!--<div class="col-xl-4 col-md-12 card-sub">
+        <div class="card quater-card">
+            <div class="card-block">
+                <h6 class="text-muted m-b-20">This Quarter</h6>
+                <h4>$3,9452.50</h4>
+                <p class="text-muted">$3,9452.50</p>
+                <h5 class="m-t-30">87</h5>
+                <p class="text-muted">
+                    Online Revenue<span class="f-right">80%</span>
+                </p>
+                <div class="progress">
+                    <div class="progress-bar bg-simple-c-pink"
+                         style="width: 80%"></div>
+                </div>
+                <h5 class="m-t-30">68</h5>
+                <p class="text-muted">
+                    Offline Revenue<span class="f-right">50%</span>
+                </p>
+                <div class="progress">
+                    <div class="progress-bar bg-simple-c-yellow"
+                         style="width: 50%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-8 col-md-12 card-sub">
+        <div class="card social-network">
+            <div class="card-header">
+                <h5>Social Network</h5>
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <img src="../files/assets/images/widget/icon-1.png"
+                             alt=" " class="img-responsive p-b-20">
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Views :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">545,721</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Comments :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">2,256</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Likes :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">4,129</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Subscribe :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">3,451,945</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="../files/assets/images/widget/icon-2.png"
+                             alt=" " class="img-responsive p-b-20">
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Engagement :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">1,543</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Shares :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">846</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Likes :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">569</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Comments :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">156</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 m-t-0">
+                        <img src="../files/assets/images/widget/icon-3.png"
+                             alt=" " class="img-responsive p-b-10 p-t-10">
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Tweets :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">103,576</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 m-t-0">
+                        <img src="../files/assets/images/widget/icon-4.png"
+                             alt=" " class="img-responsive p-b-10 p-t-10">
+                        <div class="row">
+                            <div class="col-5">
+                                <p class="text-muted m-b-5">Tweets :</p>
+                            </div>
+                            <div class="col-7">
+                                <p class="m-b-5 f-w-400">103,576</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- social end -->
+
+</div>
+
+<style>
+    .x_panel {
+        min-height: 0 !important
+    }
+</style>
+<div class="row" style="display: block;">
+    @*<div class="top_tiles">
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 ">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                    <div class="count"><span id="accountItemTile">0</span>@ViewBag.ItemTicket @ViewBag.PartyTicket @ViewBag.CompanyTicket</div>
+                    <h3>Items</h3>
+                    <p>Total Registered Items</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 ">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                    <div class="count"><span id="accountHeadTile">0</span><span id="accountItemTile">0</span><span id="accountCodeTile">0</span>@ViewBag.PartyTicket</div>
+                    <h3>Account Codes</h3>
+                    <p>Parties we are dealing</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 ">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-comments-o"></i></div>
+                    <div class="count"><span id="accountHeadTile">0</span>@ViewBag.CompanyTicket</div>
+                    <h3>Account Heads</h3>
+                    <p>Account Categories we are dealing</p>
+                </div>
+            </div>
+        </div>*@
+</div>
+@*<script type="text/javascript" src="/files/assets/pages/dashboard/analytic-dashboard.min.js"></script>*@
+<script type="text/javascript" src="/files/assets/pages/dashboard/crm-dashboard.min.js"></script>
+<script src="~/js/Home/Dashboard.js"></script>
