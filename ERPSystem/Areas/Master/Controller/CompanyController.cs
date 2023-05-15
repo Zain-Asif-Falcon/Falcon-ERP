@@ -138,14 +138,7 @@ namespace ERPSystem.Areas.Master.Controllers
             });
         }
 
-        [HttpGet]
-        public async Task<Company> GetById(int Id)
-        {
-            string apiUrl = _config["ServerAddress:Address"] + $"/api/v1/company/{Id}";
-            Task<Company> res;
-            res = ApiCalls<Company>.GetById(apiUrl);
-            return await res;
-        }
+       
         [HttpGet]
         public async Task<IActionResult> CheckExisting(string Name)
         {
