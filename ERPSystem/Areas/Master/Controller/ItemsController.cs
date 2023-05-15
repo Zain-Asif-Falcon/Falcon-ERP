@@ -157,25 +157,7 @@ namespace ERPSystem.Areas.Items.Controllers
             });
         }
 
-        [HttpGet]
-        public async Task<ItemsViewModel> GetById(int Id)
-        {
-            string apiUrl = _config["ServerAddress:Address"] + $"/api/v1/items/{Id}";
-            Task<ItemsViewModel> res;
-            res = ApiCalls<ItemsViewModel>.GetById(apiUrl);
-            return await res;
-        }
-        [HttpGet]
-        public async Task<IActionResult> CheckExistingCode(string Code)
-        {
-            string apiUrl = _config["ServerAddress:Address"] + $"/api/v1/items/CheckCode/{Code}";
-            var res = await ApiCalls<Item>.CheckExisting(apiUrl);
-            //await _serviceCaller.GetData(apiUrl);
-            return Json(new
-            {
-                data = res
-            });
-        }
+       
         #endregion
     }
 }
