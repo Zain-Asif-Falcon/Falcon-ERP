@@ -1,4 +1,4 @@
-﻿using Infrastructure.Entities;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -97,84 +97,7 @@ namespace Application.Interface.Repositories
             return query;
         }
 
-        public T GetFirstOrDefaultExp(Expression<Func<T, bool>> filter = null, string includeProperties = null)
-        {
-            IQueryable<T> query = dbSet;
-            try
-            {
-                if (filter != null)
-                {
-                    query = query.Where(filter);
-                }
-                // include properties will be comma separated
-                if (includeProperties != null)
-                {
-                    foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        query = query.Include(includeProperty);
-                    }
-                }
-                _logger.LogInformation("Log message in the {Repo} method", typeof(T));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "{Repo} function error", typeof(T));
-            }
-            
-            return query.FirstOrDefault();
-        }
-
-        //public void Remove(T entity)
-        //{
-        //    dbSet.Remove(entity);
-        //}
-
-        public void Remove(object id)
-        {
-            T entityToRemove = dbSet.Find(id);
-            dbSet.Remove(entityToRemove);
-        }
-
-        public async Task<IEnumerable<T>> GetAllRecords()
-        {
-            return await dbSet.ToListAsync();
-        }
-        public async Task<IEnumerable<T>> GetAllRecordsOrderByAsc(Expression<Func<T, int>> orderClause)
-        {
-            return await dbSet.OrderBy(orderClause).ToListAsync();
-        }
-        public async Task<IEnumerable<T>> GetAllRecordsOrderByDesc(Expression<Func<T, int>> orderClause)
-        {
-            return await dbSet.OrderByDescending(orderClause).ToListAsync();
-        }
-        public async Task<IEnumerable<T>> GetListByParameterNOrderByDesc(Expression<Func<T, bool>> wherePredict, Expression<Func<T, int>> orderClause)
-        {
-            return await dbSet.Where(wherePredict).OrderByDescending(orderClause).ToListAsync();
-        }
-        public int GetAllRecordsCount()
-        {
-            return dbSet.Count();
-        }
-
-        public IQueryable<T> GetAllRecordsIQueryable()
-        {
-            return dbSet;
-        }
-
-        public async Task<T> GetFirstorDefault(int recordId)
-        {
-            return await dbSet.FindAsync(recordId);
-        }
-
-        public T GetFirstorDefaultByParameter(Expression<Func<T, bool>> wherePredict)
-        {
-            return dbSet.Where(wherePredict).FirstOrDefault();
-        }
-
-        public async Task<IEnumerable<T>> GetListByParameter(Expression<Func<T, bool>> wherePredict)
-        {
-            return await dbSet.Where(wherePredict).ToListAsync();
-        }
+       
 
         public async Task<IEnumerable<T>> GetRecordsToShow(int pageNo, int pageSize, int CurrentPage, Expression<Func<T, bool>> wherePredict, Expression<Func<T, int>> orderByPredict)
         {
@@ -227,13 +150,7 @@ namespace Application.Interface.Repositories
             context.SaveChanges();
         }
 
-        public void Update(T tbl)
-        {
-            dbSet.Attach(tbl);
-            context.Entry(tbl).State = EntityState.Modified;
-            //context.SaveChangesAsync();
-        }
-
+       
         public void UpdateWherByClause(Expression<Func<T, bool>> wherePredict, Action<T> ForEachPredict)
         {
             dbSet.Where(wherePredict).ToList().ForEach(ForEachPredict);
