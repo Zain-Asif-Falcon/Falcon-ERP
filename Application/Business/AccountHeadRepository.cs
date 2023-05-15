@@ -28,7 +28,6 @@ namespace Application.Business
             var objFromDb = await db.AccountHeads.FirstOrDefaultAsync(c => c.AccountHeadId == itm.AccountHeadId);
             objFromDb.Code = itm.Code;
             objFromDb.Description = itm.Description;
-            //objFromDb.IsActive = itm.IsActive;
             objFromDb.updated_at = DateTime.Now;
             var create = db.SaveChanges();
             if (create > 0)
