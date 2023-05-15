@@ -1,4 +1,4 @@
-﻿using Domain.ViewModel.Dashboard;
+using Domain.ViewModel.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,6 @@ namespace Application.Business.IAppServices
         Task<TicketsViewModel> GetTicketsCounts();
         Task<LatestFiveRecordsViewModel> GetLastFiveList();
         Task<MonthlyTotals> GetMonthlyTotals(DateTime dat);
-        Task<GraphRecordsViewModel> GetGraphWeeklyList();
         
     }
 }
