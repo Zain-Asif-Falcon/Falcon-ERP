@@ -165,8 +165,7 @@ namespace ERPSystem.Areas.Master.Controllers
         public async Task<IActionResult> CheckExistingCode(string Code)
         {
             string apiUrl = _config["ServerAddress:Address"] + $"/api/v1/accountcodes/CheckCode/{Code}";
-            var res = await ApiCalls<AccountCode>.CheckExisting(apiUrl);
-            //await _serviceCaller.GetData(apiUrl);
+            var res = await ApiCalls<AccountCode>.CheckExisting(apiUrl);           
             return Json(new
             {
                 data = res
