@@ -1,6 +1,6 @@
-﻿@model Domain.ViewModel.Administration.RolesViewModel
+@model Domain.ViewModel.Administration.RolesViewModel
 @{
-    var title = (Model.Id != "") ? "Update" : "Save";
+    var title = (Model.Id != "") ? "Save" : "";
     title = title + " Role";
     ViewData["Title"] = title;
 
@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label asp-for="RoleName" class="control-label"></label>
+                <label class="control-label">Role Name</label>
                 <span class="symbol required"></span>&nbsp;
                 <input asp-for="RoleName" class="form-control form-control-sm" />
                 <span asp-validation-for="RoleName" class="text-danger"></span>
