@@ -1,0 +1,40 @@
+﻿@model Domain.ViewModel.Accounts.ExpensesViewModel
+@{
+    var title = (Model.expenses.ExpensesId > 0) ? "Update" : "Save";
+    title = title + "";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-area="Accounts" asp-controller="Expenses" asp-action="Upsert">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group" hidden>
+            <input asp-for="expenses.ExpensesId" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Expense Head</label>
+                <select id="AccountHead" class="form-control form-control-sm" asp-for="expenses.ExpenseHeadsId" asp-items="@ViewBag.ExpenseHeads">
+                    <option>Select Expense Head </option>
+                </select>
+                <span asp-validation-for="expenses.ExpenseHeadsId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Date</label>
+                <input id="accountCode" asp-for="expenses.date" class="form-control form-control-sm currentDatePicker" type="date" />
+                <span asp-validation-for="expenses.date" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.currentDatePicker').val(new Date().toDateInputValue());
+    });
+</script>
