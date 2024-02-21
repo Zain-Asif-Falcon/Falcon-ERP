@@ -1,0 +1,35 @@
+﻿@model Domain.ViewModel.Transactions.SupplierViewModel
+@{
+    var title = (Model.supp.SuppliersId > 0) ? "Update" : "Save";
+    title = title + "";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+<form asp-area="Transactions" asp-controller="Suppliers" asp-action="Upsert">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group" hidden>
+            <input asp-for="supp.SuppliersId" class="form-control" />
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="supp.Name" class="control-label"></label>
+                <input asp-for="supp.Name" class="form-control form-control-sm" />
+                <span asp-validation-for="supp.Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Mobile #</label>
+                <input asp-for="supp.MobileNumber" class="form-control form-control-sm" />
+                <span asp-validation-for="supp.MobileNumber" class="text-danger"></span>
+            </div>       
+    <div class="form-group float-right">
+        <input type="submit" value="@title" class="btn btn-primary" />
+        <input type="reset" value="Cancel" class="btn btn-danger" />
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
