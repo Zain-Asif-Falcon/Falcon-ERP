@@ -1,0 +1,27 @@
+﻿@model Domain.Entities.PurchaseItem
+@using HtmlHelpers.BeginCollectionItemCore;
+<tr>
+    @using (Html.BeginCollectionItem("items"))
+    {
+        @*<td class="hidden-td">
+                <input type="hidden" asp-for="PurchaseItemsId" hidden class="form-control form-control-sm">
+                <span asp-validation-for="PurchaseItemsId" class="text-danger"></span>
+            </td>*@
+        <td class="product-td">
+            <select asp-for="ItemsId" class="form-control form-control-sm ItemsId" asp-items="@ViewBag.Product">
+                <option value="">Choose Item</option>
+            </select>
+            <span asp-validation-for="ItemsId" class="text-danger"></span>
+        </td>
+   
+        <td>
+            <div class="text-center">
+                &nbsp;
+             
+                @*<a title="Delete" class="btn btn-danger text-white remove-row" style="border-radius :50px;">
+                        <i class="fa fa-trash"></i>
+                    </a>*@
+            </div>
+        </td>
+    }
+</tr>
