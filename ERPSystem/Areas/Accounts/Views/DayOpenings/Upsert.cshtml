@@ -1,0 +1,119 @@
+﻿@model Domain.ViewModel.Accounts.DayOpeningsViewModel
+@{
+    var title = (Model.dayopening.DayOpeningsId > 0) ? "Close Day" : "Save";
+    title = title + "";
+    ViewData["Title"] = title;
+
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+    string readOnly = "";
+
+    if(Model.dayopening.DayOpeningsId > 0)
+    {
+        /* $("#DateOpening").prop('readonly', false);*/
+    }
+    else
+    {
+        readOnly = "";
+    }
+}
+
+<form asp-area="Accounts" asp-controller="DayOpenings" asp-action="Upsert"
+      autocomplete="off"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-begin="OnBegin"
+      data-ajax-failure="OnFailure"
+      data-ajax-success="OnSuccess(data)"
+      data-ajax-complete="OnComplete">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group" hidden>
+        <input asp-for="dayopening.DayOpeningsId" class="form-control" />
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Date Opening</label>
+                @if (Model.dayopening.DayOpeningsId > 0)
+                {
+                    <input id="DateOpening" asp-for="dayopening.DateTimeOpening" class="form-control form-control-sm" type="date" />
+                }
+                else
+                {
+                    <input id="DateOpening" asp-for="dayopening.DateTimeOpening" class="form-control form-control-sm currentDatePicker" type="date" />
+                }
+                <span asp-validation-for="dayopening.DateTimeOpening" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    @{
+        if (Model.dayopening.DayOpeningsId > 0)
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Date Closing</label>
+                        <input id="accountCode" asp-for="dayopening.DateTimeClosing" class="form-control form-control-sm" type="date" />
+                        <span asp-validation-for="dayopening.DateTimeClosing" class="text-danger"></span>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Sales</label>
+                        <input id="accountCode" asp-for="dayopening.sales" readonly class="form-control form-control-sm" lang="en" type="number" />
+                        <span asp-validation-for="dayopening.sales" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Purchase</label>
+                        <input id="accountCode" asp-for="dayopening.Purchases" readonly class="form-control form-control-sm" lang="en" type="number" />
+                        <span asp-validation-for="dayopening.Purchases" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Cash Reciepts</label>
+                        <input id="accountCode" asp-for="dayopening.cashReciepts" readonly class="form-control form-control-sm" lang="en" type="number" />
+                        <span asp-validation-for="dayopening.cashReciepts" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Cash Payments</label>
+                        <input id="accountCode" asp-for="dayopening.cashPayments" readonly class="form-control form-control-sm" lang="en" type="number" />
+                        <span asp-validation-for="dayopening.cashPayments" class="text-danger"></span>
+                    </div>
+ 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="dayopening.Notes" class="control-label"></label>
+                        <textarea asp-for="dayopening.Notes" class="form-control form-control-sm" rows="3"></textarea>
+                        <span asp-validation-for="dayopening.Notes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (Model.dayopening.closeStatus != true)    
+    {
+        <div class="form-group float-right">
+            <input type="submit" value="@title" class="btn btn-primary" />
+            <input type="reset" value="Clear" class="btn btn-danger" />
+        </div>
+    }
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
+
+
+<script src="~/js/Accounts/DayOpeningForm.js"></script>
+<script type="text/javascript">
+
+</script>
