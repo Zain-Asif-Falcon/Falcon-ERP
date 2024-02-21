@@ -1,0 +1,147 @@
+﻿@model Domain.ViewModel.Transactions.PurchaseOrderViewModel
+@using Domain.ViewModel;
+
+@{
+    var title = (Model.order.PurchasesGoodsId > 0) ? "Update" : "";
+    title = title + " Purchase Note";
+    ViewData["Title"] = title;
+
+    decimal? purPrice = 0;
+    int? qty = 0;
+    decimal? sumtot = 0;
+}
+<link href="~/vendors/SweetAlert/sweetalert.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-header">
+        <h5>@title</h5>
+        <div class="btn-group float-right">
+            @if (Model.order.PurchasesGoodsId > 0)
+            {
+                string url = "https://web.whatsapp.com/send?phone=" + Model.partyDet.MobileOne + "&text=";
+                <div class="btn-group float-right">
+                    <a href="@url" target="_blank" class="btn btn-success btn-sm text-white float-right" style="margin-bottom: 20px; margin-left: 3px; font-size:15px"><i class="fa fa-whatsapp" aria-hidden="false"></i>WhatsApp</a>
+                    <a href="~/Reports/PurchaseNoteReportPDF?OrderId=@Model.order.PurchasesGoodsId" target="_blank" class="btn btn-primary btn-sm text-white float-right" style="margin-bottom: 20px; font-size: 15px"><i class="fa fa-print" aria-hidden="false"></i>Print</a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card-block">
+        <form asp-action="PlaceOrder" asp-controller="Purchases" asp-area="Transactions">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+             @if (Model.order.PurchasesGoodsId > 0)
+                            {
+                                <input asp-for="order.DocumentNumber" readonly tabindex="-1" autocomplete="off" class="form-control form-control-sm" />
+                            }
+                            else
+                            {
+                                <input asp-for="order.DocumentNumber" readonly tabindex="-1" autocomplete="off" class="form-control form-control-sm" value="@recieptNum" />
+                            }
+                            @*<input asp-for="order.DocumentNumber" readonly tabindex="-1" autocomplete="off" class="form-control form-control-sm" value="@recieptNum" />*@
+                            <span asp-validation-for="order.DocumentNumber" class="text-danger"></span>
+                        </div>
+                        @if (Model.order.DatePurchase != null)
+                        {
+                            <div class="form-group col-md-2 text-center">
+                                <label class="control-label">Date Purchase</label>
+                                <span class="symbol required"></span>&nbsp;
+                                <input class="form-control form-control-sm" asp-for="order.DatePurchase" id="date" readonly type="date" placeholder="Select your date" />
+                                <span asp-validation-for="order.DatePurchase" class="text-danger"></span>
+                            </div>
+                        }
+                        @if (Model.order.DatePurchase == null)
+                        {
+                            <div class="form-group col-md-2 text-center">
+                                <label class="control-label">Date Purchase</label>
+                                <span class="symbol required"></span>&nbsp;
+                                @*<input asp-for="order.DateSales" id="date" autocomplete="off" class="form-control form-control-sm datepicker" type="date" />*@
+                                <input class="form-control form-control-sm currentDatePicker" asp-for="order.DatePurchase" id="" type="date" placeholder="Select your date" />
+                                <span asp-validation-for="order.DatePurchase" class="text-danger"></span>
+                            </div>
+                        }
+                        <div class="form-group col-md-2 text-center">
+                            <label class="control-label">Due Date</label>
+                            <span class="symbol required"></span>&nbsp;
+                            <input class="form-control form-control-sm" asp-for="order.DueDate" id="" type="date" placeholder="Select your date" />
+                            <span asp-validation-for="order.DueDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-2 text-center">
+                            <label class="control-label">Reference #</label>
+                            <span class="symbol required"></span>&nbsp;
+                            <input id="referenceNum" asp-for="order.ReferenceNum" autocomplete="off" class="form-control form-control-sm" />
+                            <span asp-validation-for="order.ReferenceNum" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <label class="control-label">Party</label>
+                            <span class="symbol required"></span>&nbsp;
+                            <select class="form-control form-control-sm accountcodedropdown" asp-for="order.AccountCodeId" asp-items="@ViewBag.AccountCodes">
+                                <option>Choose Party</option>
+                            </select>
+                            <span asp-validation-for="order.AccountCodeId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-2 text-center">
+                            <label class="control-label">Party Current Balance</label>
+                            <input readonly asp-for="partyDet.OpeningBalance" tabindex="-1" class="form-control form-control-sm" id="partyCurrentBalance" />
+                        </div>
+                        <div class="form-group col-md-2 text-center">
+                            <label class="control-label">Mobile #</label>
+                            <input readonly asp-for="partyDet.MobileOne" tabindex="-1" class="form-control form-control-sm" id="partyMobileNum" />
+                        </div>
+                    </div>
+                        <div class="form-group col-md text-center">
+                            <label asp-for="order.Labour" class="control-label"></label>
+                            <span class="symbol required"></span>&nbsp;
+                            <input asp-for="order.Labour" type="text" autocomplete="off" id="labourTxt" class="form-control form-control-sm" value="@labour" />
+                            <span asp-validation-for="order.Labour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md text-center">
+                            <label asp-for="order.Loading" class="control-label"></label>
+                            <span class="symbol required"></span>&nbsp;
+                            <input asp-for="order.Loading" type="number" autocomplete="off" id="loadingTxt" class="form-control form-control-sm" value="@loading" />
+                            <span asp-validation-for="order.Loading" class="text-danger"></span>
+                        </div>
+                     
+                        <div class="form-group col-md text-center">
+                            <label asp-for="order.Misc" class="control-label"></label>
+                            <span class="symbol required"></span>&nbsp;
+                            <input asp-for="order.Misc" type="number" autocomplete="off" id="miscTxt" class="form-control form-control-sm" value="@misc" />
+                            <span asp-validation-for="order.Misc" class="text-danger"></span>
+                        </div>
+                        @{
+                            decimal? totExp = 0;
+                            if (Model.order.TotalExpenses != null)
+                            {
+                                totExp = Model.order.TotalExpenses;
+                            }
+                        }
+                        <div class="form-group col-md text-center">
+                            <label class="control-label">Total Expenses</label>
+                            <input readonly asp-for="order.TotalExpenses" tabindex="-1" type="number" class="form-control form-control-sm" id="expensesTotalTxt" value="@totExp"/>
+                            <span asp-validation-for="order.TotalExpenses" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save" aria-hidden="false"></i> Save</button>
+                @*<input type="submit" value="Save Data" class="btn btn-primary" />*@
+            </div>
+        </form>
+    </div>
+</div>
+    
+    @section Scripts{
+        <script src="~/vendors/SweetAlert/sweetalert.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+        <script src="~/js/Transactions/PurchaseOrderItems.js"></script>
+        <script type="text/javascript">
+            function OnComplete() {
+
+            }
+        </script>
+    }
