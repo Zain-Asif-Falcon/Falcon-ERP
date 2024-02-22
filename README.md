@@ -16,7 +16,7 @@ This Factory Management System is a comprehensive solution designed to streamlin
 ## Technologies Used
 - Programming Language: C#
 - Database: SQL
-- Frameworks/Libraries: .NET framework, EF Core Web API
+- Frameworks/Libraries: .NET framework, EF Core, Restful API
 - Frontend: HTML, CSS, JavaScript
 - Tools: Visual Studio,SQL Management studio
 
